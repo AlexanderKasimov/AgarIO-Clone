@@ -12,10 +12,13 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController instance;
 
+    private Weapon weapon;
+
     private void Awake()
     {
         instance = this;
-        rb = GetComponent<Rigidbody2D>();      
+        rb = GetComponent<Rigidbody2D>();
+        weapon = GetComponentInChildren<Weapon>();
     }
 
     // Start is called before the first frame update
@@ -28,6 +31,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        //Get WeaponInput
+        if (Input.GetButton("Fire1"))
+        {
+            weapon?.Fire();
+        }
     }
 
     private void FixedUpdate()
