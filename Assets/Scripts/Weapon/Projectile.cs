@@ -15,10 +15,11 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
   
-    public void Init(Vector2 direction)
+    public void Init(Vector2 direction, Vector3 scale)
     {
         movingDirection = direction;
         transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.right, direction));
+        transform.localScale = Vector3.Scale(transform.localScale, scale);
     }
 
     // Start is called before the first frame update

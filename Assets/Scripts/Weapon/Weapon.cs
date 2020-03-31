@@ -15,6 +15,13 @@ public class Weapon : MonoBehaviour
 
     public GameObject muzzle;
 
+    private FoodHandler foodHandler;
+    
+    private void Awake()
+    {
+        foodHandler = GetComponentInParent<FoodHandler>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,10 +41,11 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-        if (timeSinceFire >= 60f/ firePerMinute)
+        if (timeSinceFire >= 60f/ firePerMinute && foodHandler?.curFood > Mathf.Ceil(foodHandler.curFood * 0.1f))
         {
+            foodHandler?.HandleFood(-Mathf.Ceil(foodHandler.curFood * 0.1f));
             Projectile projectile = Instantiate(projectilePrefab, muzzle.transform.position, Quaternion.identity);
-            projectile.Init(aimingDirection);
+            projectile.Init(aimingDirection, transform.root.localScale);
             timeSinceFire = 0f;
         }
     }

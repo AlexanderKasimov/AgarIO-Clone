@@ -13,6 +13,6 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Camera.main.orthographicSize = PlayerController.instance.transform.localScale.x + 5f;
+        Camera.main.orthographicSize = PlayerController.instance.transform.localScale.x*2f + 5f;
     }
 }
