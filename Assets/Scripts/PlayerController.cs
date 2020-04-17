@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
 
     private Weapon weapon;
 
+    public bool isDead = false;
+
+    //private FoodHandler foodHandler;
+
     private void Awake()
     {
         instance = this;
@@ -30,17 +34,32 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-        //Get WeaponInput
-        if (Input.GetButton("Fire1"))
+        if (!isDead)
         {
-            weapon?.Fire();
-        }
+            movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+            //Get WeaponInput
+            if (Input.GetButton("Fire1"))
+            {
+                weapon?.Fire();
+            }
+        }      
     }
 
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movementInput * speed * Time.fixedDeltaTime);
+    }
+
+    public void PlayerDied()
+    {
+        isDead = true;
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var item in spriteRenderers)
+        {
+            item.enabled = false;            
+        }
+        speed = 0f;
+        GameManager.instance.PlayerDied();
     }
 
 }

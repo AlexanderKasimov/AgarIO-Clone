@@ -42,10 +42,11 @@ public class Weapon : MonoBehaviour
     public void Fire()
     {
         if (timeSinceFire >= 60f/ firePerMinute && foodHandler?.curFood > Mathf.Ceil(foodHandler.curFood * 0.1f))
-        {
-            foodHandler?.HandleFood(-Mathf.Ceil(foodHandler.curFood * 0.1f));
+        {          
             Projectile projectile = Instantiate(projectilePrefab, muzzle.transform.position, Quaternion.identity);
-            projectile.Init(aimingDirection, transform.root.localScale);
+            //Не подавать скейл, подавать число еды
+            projectile.Init(aimingDirection, transform.root.localScale, Mathf.Ceil(foodHandler.curFood * 0.1f));
+            foodHandler?.HandleFood(-Mathf.Ceil(foodHandler.curFood * 0.1f));
             timeSinceFire = 0f;
         }
     }
